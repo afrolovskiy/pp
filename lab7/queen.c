@@ -2,21 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define SIZE 15
-
-void print_board(int *queens){
-  int i, j;
-  for (i = 0; i < SIZE; i++){
-    for (j = 0; j < SIZE; j++){
-      if (queens[i] == j)
-        printf("1");
-      else
-        printf("0");
-    }
-    printf("\n");
-  }
-}
-
+#define SIZE 16
 
 int check(int ridx, int cidx, int *queens){
   int i, delta;
@@ -31,8 +17,9 @@ int check(int ridx, int cidx, int *queens){
 }
 
 
-int set_queen(int ridx, int cidx, int *queens){
-  int j, count = 0;
+long int set_queen(int ridx, int cidx, int *queens){
+  int j;
+  long int  count = 0;
   
   queens[ridx] = cidx;
 
@@ -49,19 +36,17 @@ int set_queen(int ridx, int cidx, int *queens){
 
 
 int main(int argc,char *argv[]){
-  int j, count = 0;
+  int j;
+  long int count = 0;
   int queens[SIZE];
   clock_t begin, end;
-  double elapsed_secs;
 
   begin = clock();
-  for (j = 0; j < SIZE/2; j++)
-    count += 2*set_queen(0, j, queens);
-  if (SIZE % 2)
-    count += set_queen(0, SIZE/2, queens);
+  for (j = 0; j < SIZE; j++)
+    count += set_queen(0, j, queens);
   end = clock();
-  printf("%d\n", count);
-  elapsed_secs = ((double)end - begin) / CLOCKS_PER_SEC;
-  printf("elapsed time: %1.2f\n", elapsed_secs);
+
+  printf("count = %d, matrix size: %dx%d\n", count, SIZE, SIZE);
+  printf("elapsed time: %1.2f\n", ((double)end - begin) / CLOCKS_PER_SEC);
   return 0;
 }
